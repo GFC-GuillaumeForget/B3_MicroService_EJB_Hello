@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>USERS</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function sendMe(){
+            var f = document.getElementById("myform");
+            /**
+             *
+             * @type {HTMLElement}
+             */
+            var typed = document.getElementById("typedName");
+            console.log("adding new Name " + typed.value );
+            f.setAttribute("action",
+                f.getAttribute("action_template").replace('%n%',typed.value));
+            //f.submit();
+            $("#myform").submit();
+        }
+
+        $(document).ready(
+          function (){
+              /* attach a submit handler to the form */
+              $("#myform").submit(function(event) {
+                  console.log ("Internal Handler Jquery");
+                  /* stop form from submitting normally */
+                  event.preventDefault();
+
+                  /* get the action attribute from the <form action=""> element */
+                  var $form = $(this),
+                      url = $form.attr('action');
+
+                  /* Send the data */
+                  var posting = $.ajax(url, {
+                      url : url,
+                      type: 'PUT',
+                      additionalData: "test",
+                      success : function (resul){
+                          console.info(resul);
+                          $('#resultServer').html(resul);
+                      }
+                  });
+
+                  /* Alerts the results */
+                  posting.done(function(data) {
+                      $('#result').text('success');
+                  });
+                  posting.fail(function() {
+                      $('#result').text('failed');
+                  });
+              });
+
+              console.log ("init Ok");
+          }
+        );
+
+
+
+    </script>
+
+</head>
+<body>
+    <h1>Set User</h1>
+    <form id="myform" method="put" action_template="rest/hellows?yourName=%n%">
+    <span>Give me your Name </span><input type="text" id="typedName">
+    <button value="ADD" onclick="sendMe(); return false;">ajouter...</button>
+    <span id="result"></span>
+    <div id="resultServer" style="width:100%;height:30px;max-height:200px; min-height:30px;background: antiquewhite"></div>
+
+</form>
+</body>
+</html>

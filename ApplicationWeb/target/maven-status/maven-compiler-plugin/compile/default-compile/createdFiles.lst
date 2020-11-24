@@ -1,0 +1,5 @@
+Main.class
+ejbdemo\ejbBean.class
+ejbdemo\ejbRemoteInterface.class
+ejbdemo\ejbApplication.class
+startJava\ServiceWeb.class
