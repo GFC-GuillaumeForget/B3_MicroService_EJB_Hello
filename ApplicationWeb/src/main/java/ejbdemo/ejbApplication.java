@@ -7,7 +7,7 @@ import java.util.Set;
 
 //2z cas de test WebService REST Full Webservice:
 // dans glassFish
-// http://forgetg-pc:8080/ApplicationWeb-1.0-SNAPSHOT/rest/hellows
+// http://forgetg-pc:8080/ApplicationWeb-1.0-SNAPSHOT/rest
 
 @ApplicationPath("/rest")
 public class ejbApplication extends Application {

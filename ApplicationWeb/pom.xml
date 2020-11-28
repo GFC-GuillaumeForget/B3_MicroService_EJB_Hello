@@ -46,4 +46,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>otherOutputDir</id>
+            <build>
+                <directory>C:\glassfish5\glassfish\domains\domain1\autodeploy</directory>
+            </build>
+        </profile>
+    </profiles>
 </project>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello </title>
+    <p>ceci est un test simple en POST basique sans AJAX / Jquery  </p>
+    <p>le resultat de l'action sera la page elle meme  </p>
+</head>
+<body>
+
+
+<form id="myform" method="POST" action="rest/hellows">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-4 text-right">
+                <label for="typedName">Give me your Name </label>
+            </div>
+
+            <div class="col-sm-6">
+                <input class="form-control" type="text" id="typedName" name="typedName">
+            </div><div class="col-sm-2">
+
+            <button type="submit" class="text-left" value="ADD">ajouter...</button></div>
+        </div>
+    </div>
+</form>
+
+<script>
+function param(name) {
+    return (location.search.split(name + '=')[1] || '').split('&')[0];
+}
+
+    if(window.location.href.match("/?message")){
+        var msg = param ("message");
+        alert (decodeURI(msg));
+    }
+
+</script>
+
+</body>
+</html>
