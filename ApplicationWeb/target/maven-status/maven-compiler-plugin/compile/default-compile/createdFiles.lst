@@ -1,5 +1,9 @@
 Main.class
+ejbdemo\ejbRemotePanierInterface.class
 ejbdemo\ejbBean.class
+ejbdemo\ejbBeanStudent.class
+ejbdemo\ejbRemoteStudentInterface.class
 ejbdemo\ejbRemoteInterface.class
 ejbdemo\ejbApplication.class
 startJava\ServiceWeb.class
+ejbdemo\ejbPanier.class

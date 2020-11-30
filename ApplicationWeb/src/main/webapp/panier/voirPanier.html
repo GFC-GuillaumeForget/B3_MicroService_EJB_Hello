@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Panier Application</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script>
+        var panier = {
+            data : null /* source dada from service */,
+
+            buildTable : function(json){
+                this.data = json;
+                $.each(this.data,function(index, value){
+                    var tBody = "<tr><td>%n</td><td>%p</td><td></td></tr>"
+                        .replace("%n",value.nom)
+                        .replace("%p",value.prix)
+                        //.replace("%a",actionHtml)
+                    $('#table_body').append(tBody);
+                 })
+            },
+
+        };
+
+$(document).ready(
+  function (){
+      /* get service data */
+      var url = "../rest/panier/get";
+      $.ajax(url, {
+              url : url,
+              type: 'GET',
+               /* callback de la Request 202 */
+              success : function (resul){
+                  console.info(resul);
+                  var json = JSON.parse (resul);
+                  $('#resultServer').html(resul);
+                  /* Build Table */
+                  panier.buildTable(json);
+              }
+          });
+      console.log ("init Ok");
+  }
+);
+
+
+</script>
+</head>
+<body>
+<div class="container">
+    <h1>BIenvenue au shopping</h1>
+    <p>cette page construit dynamiquement un table à partir de la source de donnée "panier" de l'ejbPanier (en stateless) </p>
+    <a href="choixARticle.html">retour</a>
+    <form id="myform" method="post" action="../rest/panier/add">
+        <div class="form-group">
+            <div class="row" id="dynamic_table">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"> Panier !
+                        </div>
+                        <div class="panel-body center">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>nom</th>
+                                    <th>prix</th>
+                                    <th>action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="table_body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <!-- Content here -->
+    <h2>Résultat HTTP</h2>
+    <div id="resultHttp" class="card bg-info text-white" style="">-</div>
+</div>
+<div class="container">
+    <h2>Flux Serveur</h2><!-- Content here -->
+    <div id="resultServer" class="card bg-primary text-white">     -   </div>
+</div>
+</body>
+</html>

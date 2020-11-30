@@ -14,7 +14,7 @@ function sendMe(){
 
 $(document).ready(
   function (){
-      /* attach a submit handler to the form */
+      /* Surcharger le comportement de la méthode SUBMIT */
       $("#myform").submit(function(event) {
           console.log ("Internal Handler Jquery");
           /* stop form from submitting normally */
@@ -24,21 +24,22 @@ $(document).ready(
           var $form = $(this),
               url = $form.attr('action');
 
-          /* Send the data */
+          /* Send the data en type = PUT */
           var posting = $.ajax(url, {
               url : url,
               type: 'PUT',
-
+               /* callback de la Request 202 */
               success : function (resul){
                   console.info(resul);
                   $('#resultServer').html(resul);
               }
           });
 
-          /* Alerts the results */
+          /* callback done : indiquer Succes dans #resultHttp */
           posting.done(function(data) {
               $('#resultHttp').text('success');
           });
+           /* callback done : indiquer Failed dans #resultHttp */
           posting.fail(function() {
               $('#resultHttp').text('failed');
           });

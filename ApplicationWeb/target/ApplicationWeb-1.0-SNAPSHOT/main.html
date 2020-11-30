@@ -30,9 +30,9 @@ function param(name) {
     return (location.search.split(name + '=')[1] || '').split('&')[0];
 }
 
-    if(window.location.href.match("?message")){
+    if(window.location.href.match("/?message")){
         var msg = param ("message");
-        alert (msg);
+        alert (decodeURI(msg));
     }
 
 </script>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Panier Application</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script>
+        var choixArticle = {
+            data : [{index : 0, nom:"cd",prix:10 }, {index : 1, nom:"livre",prix:20 },{index : 2, nom:"A4Paper",prix:19 }],
+            selected : null,
+            panierResultLength: 0,
+            buildTable : function(){
+                $.each(this.data,function(index, value){
+                    var actionHtml =  '<button class="text-left" value="ADD" onclick="choixArticle.add('+ index + ' ); return false;">ajouter...</button></div>';
+                    var tBody = "<tr><td>%i</td><td>%n</td><td>%p</td><td>%a</td></tr>"
+                        .replace("%i",value.index)
+                        .replace("%n",value.nom)
+                        .replace("%p",value.prix)
+                        .replace("%a",actionHtml)
+                    $('#table_body').append(tBody);
+                 })
+            },
+            add : function(index){
+                choixArticle.selected = choixArticle.data[index];
+                 $("#myform").submit();
+            }
+        };
+
+$(document).ready(
+  function (){
+
+      /* Surcharger le comportement de la méthode SUBMIT */
+      $("#myform").submit(function(event) {
+          console.log ("Internal Handler Jquery");
+          /* stop form from submitting normally */
+          event.preventDefault();
+
+          /* get the action attribute from the <form action=""> element */
+          var $form = $(this),
+              url = $form.attr('action');
+
+          /* Send the data en type = PUT */
+          var posting = $.ajax(url, {
+              url : url,
+              type: 'POST',
+              data : {
+                nom: choixArticle.selected.nom,
+                prix : choixArticle.selected.prix
+              },
+               /* callback de la Request 202 */
+              success : function (resul){
+                  console.info(resul);
+                  var json = JSON.parse (resul);
+                  choixArticle.panierResultLength = json.length;
+                  $('#resultServer').html(resul);
+              }
+          });
+
+          /* callback done : indiquer Succes dans #resultHttp */
+          posting.done(function(data) {
+              $('#resultHttp').text('articles ajoutés au panier : ' + choixArticle.panierResultLength  );
+          });
+           /* callback done : indiquer Failed dans #resultHttp */
+          posting.fail(function() {
+              $('#resultHttp').text('failed');
+          });
+      });
+
+      /* Build Table */
+      choixArticle.buildTable();
+
+      console.log ("init Ok");
+  }
+);
+
+
+</script>
+</head>
+<body>
+<div class="container">
+    <h1>BIenvenue au shopping</h1>
+    <p>cette page construit dynamiquement un table à partir d'une source de donnée et permet d'ajouter un item au service ejbPanier (stateless) </p>
+    <a href="voirPanier.html">voir panier >></a>
+    <form id="myform" method="post" action="../rest/panier/add">
+        <div class="form-group">
+            <div class="row" id="dynamic_table">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"> Dynamic Table
+                        </div>
+                        <div class="panel-body center">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>index</th>
+                                    <th>nom</th>
+                                    <th>prix</th>
+                                    <th>action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="table_body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <!-- Content here -->
+    <h2>Résultat HTTP</h2>
+    <div id="resultHttp" class="card bg-info text-white" style="">-</div>
+</div>
+<div class="container">
+    <h2>Flux Serveur</h2><!-- Content here -->
+    <div id="resultServer" class="card bg-primary text-white">     -   </div>
+</div>
+</body>
+</html>

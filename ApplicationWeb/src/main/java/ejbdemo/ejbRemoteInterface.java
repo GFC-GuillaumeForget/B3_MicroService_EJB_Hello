@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 @Remote
 public interface ejbRemoteInterface {
     public String sayHello();
+    public String sayHello2();
     public String putName(String yourName);
     public Response postName(String yourName) throws URISyntaxException;
 
