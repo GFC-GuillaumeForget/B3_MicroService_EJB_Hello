@@ -6,4 +6,5 @@ ejbdemo\ejbRemoteStudentInterface.class
 ejbdemo\ejbRemoteInterface.class
 ejbdemo\ejbApplication.class
 startJava\ServiceWeb.class
+ejbdemo\models\Article.class
 ejbdemo\ejbPanier.class
